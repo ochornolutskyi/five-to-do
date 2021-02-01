@@ -20,7 +20,7 @@ const EditingTitleRenderer = ({ className, id, title, changeTaskClickHandler, se
    };
    return (
       <div className={className}>
-         <input ref={ref} type="text" onChange={(event) => changeTitleHandler(event.target.value)} value={newTitle} />
+         <input type="text" onChange={(event) => changeTitleHandler(event.target.value)} value={newTitle} />
          <button className="button-apply" onClick={() => confirmNewTitle(id, newTitle)} />
          {isShowHint && <ErrorHint hintText={HINT_TEXT} />}
       </div>
