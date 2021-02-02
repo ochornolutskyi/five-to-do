@@ -2,47 +2,31 @@ import React from "react";
 import "./TodosList.scss";
 import ListTitle from "../ListTitle";
 import TodoItemContainer from "./TodoItemContainer";
+import { useSelector } from "react-redux";
 
 const TODO_TITLE = "Should to do tasks";
 const COMPLETED_TITLE = "Completed tasks";
 const taskListClassName = "tasks-list";
 const taskClassName = "task-item";
 
-const TodosList = ({ todos, completeTaskClickHandler, changeTaskClickHandler, removeTaskClickHandler }) => {
-   const notCompletedTodos = todos
-      .filter((todo) => !todo.completed)
-      .map((todoItem) => (
-         <TodoItemContainer
-            className={`${taskClassName}__todo`}
-            key={todoItem.id}
-            id={todoItem.id}
-            title={todoItem.title}
-            completed={todoItem.completed}
-            completeTaskClickHandler={completeTaskClickHandler}
-            changeTaskClickHandler={changeTaskClickHandler}
-            removeTaskClickHandler={removeTaskClickHandler}
-         />
-      ));
-   const completedTodos = todos
-      .filter((todo) => todo.completed)
-      .map((todoItem) => (
-         <TodoItemContainer
-            className={`${taskClassName}__complete`}
-            key={todoItem.id}
-            id={todoItem.id}
-            title={todoItem.title}
-            removeTaskClickHandler={removeTaskClickHandler}
-         />
-      ));
+const TodosList = () => {
+   const todoTasks = useSelector((state) => state.todos_1.todoTasks);
+   const completedTasks = useSelector((state) => state.todos_1.completedTasks);
+   const todoTasksComponent = todoTasks.map((task) => (
+      <TodoItemContainer key={task.id} {...task} className={`${taskClassName}__todo`} />
+   ));
+   const completedTasksComponent = completedTasks.map((task) => (
+      <TodoItemContainer key={task.id} {...task} className={`${taskClassName}__complete`} />
+   ));
    return (
       <div>
          <div className={taskListClassName}>
             <ListTitle className={taskListClassName} title={TODO_TITLE} />
-            {notCompletedTodos}
+            {todoTasksComponent}
          </div>
          <div className={taskListClassName}>
             <ListTitle className={taskListClassName} title={COMPLETED_TITLE} />
-            {completedTodos}
+            {completedTasksComponent}
          </div>
       </div>
    );

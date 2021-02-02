@@ -1,50 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
 import CreateTask from "./components/CreateTask";
+import ErrorHint from "./components/ErrorHint";
 import TodosList from "./components/TodosList";
+import { fetchTodos_1 } from "./redux/actions";
 
 function App() {
-   const [todos, setTodos] = useState(null);
-
-   const createTaskClickHandler = (id, title, completed) => {
-      setTodos([...todos, { id, title, completed }]);
-   };
-   const completeTaskClickHandler = (id) => {
-      let newTodos = todos.filter((todo) => todo.id !== id);
-      let completedTodo = todos.filter((todo) => todo.id === id)[0];
-      completedTodo.completed = true;
-      newTodos.push(completedTodo);
-      setTodos(newTodos);
-   };
-   const changeTaskClickHandler = (id, title) => {
-      let newTodos = [...todos];
-      let changingTask = newTodos.find((todo) => todo.id === id);
-      if (title === changingTask.title) return;
-      changingTask.title = title.trim();
-      setTodos(newTodos);
-   };
-   const removeTaskClickHandler = (id) => {
-      const newTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(newTodos);
-   };
+   const isLoading = useSelector((state) => state.todos_1.isLoading);
+   const todos_1 = useSelector((state) => state.todos_1.tasks);
+   const dispatch = useDispatch();
 
    useEffect(() => {
-      fetch("https://jsonplaceholder.typicode.com/todos")
-         .then((response) => response.json())
-         .then((jsonData) => setTodos(jsonData.splice(0, 15)));
+      dispatch(fetchTodos_1());
    }, []);
 
-   if (!todos) return <div>Loading...</div>;
+   if (isLoading) return <div>Loading...</div>;
    return (
       <div className="App">
-         <CreateTask createTaskClickHandler={createTaskClickHandler} />
-         <hr style={{ width: "95%", borderColor: "#fff" }} />
-         <TodosList
-            todos={todos}
-            completeTaskClickHandler={completeTaskClickHandler}
-            changeTaskClickHandler={changeTaskClickHandler}
-            removeTaskClickHandler={removeTaskClickHandler}
-         />
+         {!todos_1 ? (
+            <ErrorHint hintText="Something went wrong, please, reload the page" />
+         ) : (
+            <>
+               <CreateTask />
+               <hr style={{ width: "95%", borderColor: "#fff" }} />
+               <TodosList />
+            </>
+         )}
       </div>
    );
 }

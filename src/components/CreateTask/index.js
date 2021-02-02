@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import "./CreateTask.scss";
 import Title from "../ListTitle";
+import { useDispatch } from "react-redux";
+import { addNewTask } from "../../redux/actions";
 
 const TITLE_TASK_PLACEHOLDER = "Please, add task title";
 const CREATE_TASK_TITLE = "Please, create the new task";
 const classes = "createTask";
 
-const CreateTask = ({ createTaskClickHandler }) => {
+const CreateTask = () => {
    const [title, setTitle] = useState("");
    const changeHandler = (value) => {
       setTitle(value);
    };
+   const dispatch = useDispatch();
 
    return (
       <div className={`${classes}-wrapper`}>
@@ -26,11 +29,11 @@ const CreateTask = ({ createTaskClickHandler }) => {
             <button
                className={!title.trim().length ? "buttonDisable" : null}
                onClick={() => {
-                  createTaskClickHandler(Date.now(), title, false);
+                  dispatch(addNewTask(title));
                   setTitle("");
                }}
                disabled={!title.trim().length ? true : false}
-            ></button>
+            />
          </div>
       </div>
    );

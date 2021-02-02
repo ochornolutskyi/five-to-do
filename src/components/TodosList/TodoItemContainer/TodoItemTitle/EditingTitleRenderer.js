@@ -1,21 +1,27 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changeTaskTitle } from "../../../../redux/actions";
 import ErrorHint from "../../../ErrorHint";
 
 const HINT_TEXT = "The title can't be empty";
 
-const EditingTitleRenderer = ({ className, id, title, changeTaskClickHandler, setIsEditing }) => {
+const EditingTitleRenderer = ({ className, id, title, setIsEditing }) => {
    const [newTitle, setNewTitle] = useState(title);
    const [isShowHint, setIsShowHint] = useState(false);
+   const dispatch = useDispatch();
    const changeTitleHandler = (value) => {
       setNewTitle(value);
    };
    const confirmNewTitle = (id, newTitle) => {
-      if (!newTitle.trim().length) {
+      if (newTitle.trim() === title) {
+         setIsEditing(false);
+      } else if (!newTitle.trim().length) {
          setIsShowHint(true);
          setTimeout(() => setIsShowHint(false), 1500);
       } else {
+         console.log("s");
+         dispatch(changeTaskTitle(id, newTitle.trim()));
          setIsEditing(false);
-         changeTaskClickHandler(id, newTitle);
       }
    };
    return (

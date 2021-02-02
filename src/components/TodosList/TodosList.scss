@@ -39,6 +39,7 @@
          background: url("../../img/icons/edit.png") no-repeat;
       }
       &__remove {
+         width: 150px;
          background: url("../../img/icons/remove.png") no-repeat;
       }
    }
@@ -75,10 +76,3 @@
       text-decoration: line-through;
    }
 }
-/* .tasks-list__todo{
-   &-title {
-      input{
-         width: 100%;
-      }
-   }
-} */

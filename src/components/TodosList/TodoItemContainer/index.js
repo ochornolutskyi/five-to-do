@@ -1,26 +1,22 @@
 import React, { useState } from "react";
 import EditingTitleRenderer from "./TodoItemTitle/EditingTitleRenderer";
 import DefaultTitleRenderer from "./TodoItemTitle/DefaultTitleRenderer";
+import { useDispatch } from "react-redux";
+import { completeTask, removeTask } from "../../../redux/actions";
 
-const TodoItemContainer = ({
-   className,
-   id,
-   title,
-   completed,
-   completeTaskClickHandler,
-   changeTaskClickHandler,
-   removeTaskClickHandler,
-}) => {
-   const todoTitleClasses = `${className}-title`;
+const TodoItemContainer = ({ className, title, id, completed }) => {
+   const taskTitleClassName = `${className}-title`;
    const [isEditing, setIsEditing] = useState(false);
+
+   const dispatch = useDispatch();
+
    const titleRenderer = !isEditing ? (
-      <DefaultTitleRenderer className={todoTitleClasses} title={title} />
+      <DefaultTitleRenderer className={taskTitleClassName} title={title} />
    ) : (
       <EditingTitleRenderer
-         className={`${todoTitleClasses} editing`}
+         className={`${taskTitleClassName} editing`}
          title={title}
          id={id}
-         changeTaskClickHandler={changeTaskClickHandler}
          setIsEditing={setIsEditing}
       />
    );
@@ -30,7 +26,7 @@ const TodoItemContainer = ({
          {titleRenderer}
          <div className={`${className}-options`}>
             {isRenderButton && (
-               <button className={`${className}-options__done`} onClick={() => completeTaskClickHandler(id)} />
+               <button className={`${className}-options__done`} onClick={() => dispatch(completeTask(id))} />
             )}
             {isRenderButton && (
                <button
@@ -40,7 +36,7 @@ const TodoItemContainer = ({
                   }}
                />
             )}
-            <button className={`${className}-options__remove`} onClick={() => removeTaskClickHandler(id)} />
+            <button className={`${className}-options__remove`} onClick={() => dispatch(removeTask(id))} />
          </div>
       </div>
    );
