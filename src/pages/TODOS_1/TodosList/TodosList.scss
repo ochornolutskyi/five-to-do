@@ -33,14 +33,14 @@
          margin-left: 7px;
       }
       &__done {
-         background: url("../../img/icons/done.png") no-repeat;
+         background: url("../../../shared/static/img/icons/done.png") no-repeat;
       }
       &__edit {
-         background: url("../../img/icons/edit.png") no-repeat;
+         background: url("../../../shared/static/img/icons/edit.png") no-repeat;
       }
       &__remove {
          width: 150px;
-         background: url("../../img/icons/remove.png") no-repeat;
+         background: url("../../../shared/static/img/icons/remove.png") no-repeat;
       }
    }
 }
@@ -60,7 +60,7 @@
    .button-apply {
       width: 25px;
       height: 25px;
-      background: url("../../img/icons/apply.png") no-repeat;
+      background: url("../../../shared/static/img/icons/apply.png") no-repeat;
       background-size: contain;
       outline: none;
       border: none;
