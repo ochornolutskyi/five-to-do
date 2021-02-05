@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useState } from 'react';
 import './CreateTask.scss';
 import Title from '../Title';
-import { addNewTask } from 'redux/todos-service/actions';
+import { addNewTask } from '../../../redux/todos-service/actions';
 import { connect, ConnectedProps } from 'react-redux';
 
 const TITLE_TASK_PLACEHOLDER = 'Please, add task title';

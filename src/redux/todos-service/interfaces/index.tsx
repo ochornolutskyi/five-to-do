@@ -1,25 +1,18 @@
-import { Task } from 'shared/types/task';
+import { Task } from '../../../shared/types/task';
 
 //actions
-export interface IGetTodos_1 {
+export interface IGetTodos {
 	type: string;
 }
-export interface IGetTodos_1_SUCCESS {
+export interface IGetTodos_SUCCESS {
 	type: string;
 	payload: Array<Task>;
 }
-export interface IGetTodos_1_FAILED {
+export interface IGetTodos_FAILED {
 	type: string;
 }
-export interface IChangeTask {
-	type: string;
-	payload: {
-		id: number;
-		title: string;
-	};
-}
-//
 export interface ITodos {
 	isLoading: boolean;
 	tasks: Array<Task>;
+	isFetchedErr: boolean;
 }

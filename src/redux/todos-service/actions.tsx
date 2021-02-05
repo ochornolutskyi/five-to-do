@@ -4,23 +4,26 @@ import {
 	ADD_NEW_TASK,
 	CHANGE_TASK_TITLE,
 	COMPLETE_TASK,
-	GET_TODOS_1,
-	GET_TODOS_1_FAILED,
-	GET_TODOS_1_SUCCESS,
+	GET_TODOS,
+	GET_TODOS_FAILED,
+	GET_TODOS_SUCCESS,
 	REMOVE_TASK,
-} from 'redux/actions-types';
-import { Task } from 'shared/types/task';
-import { IGetTodos_1, IGetTodos_1_FAILED, IGetTodos_1_SUCCESS } from './interfaces';
+} from '../actions-types';
+import { Task } from '../../shared/types/task';
+import { IGetTodos, IGetTodos_FAILED, IGetTodos_SUCCESS } from './interfaces';
 
-export const getTodos_1 = (): any => (dispatch: Dispatch<IGetTodos_1 | IGetTodos_1_SUCCESS | IGetTodos_1_FAILED>) => {
-	dispatch({ type: GET_TODOS_1 });
-	const TODOS_1_URL: string = 'https://jsonplaceholder.typicode.com/todos';
-	axios
-		.get(TODOS_1_URL)
-		.then(data => {
-			return dispatch({ type: GET_TODOS_1_SUCCESS, payload: data.data });
-		})
-		.catch(err => dispatch({ type: GET_TODOS_1_FAILED }));
+export const getTodos = () => async (
+	dispatch: Dispatch<IGetTodos | IGetTodos_SUCCESS | IGetTodos_FAILED>
+): Promise<void> => {
+	try {
+		dispatch({ type: GET_TODOS });
+		const TODOS_URL: string = 'https://jsonplaceholder.typicode.com/todos';
+		const response = await axios.get(TODOS_URL);
+		const result = await response.data;
+		dispatch({ type: GET_TODOS_SUCCESS, payload: result });
+	} catch (err) {
+		dispatch({ type: GET_TODOS_FAILED });
+	}
 };
 
 export const addNewTask = (title: string) => (dispatch: Dispatch) => {
